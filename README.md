@@ -1,2 +1,2 @@
-# node-home-statusdisplay
-Status display for node-home
+# smartnode-statusdisplay
+Status display for SmartNode
