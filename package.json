@@ -1,0 +1,29 @@
+{
+  "name": "node-home-statusdisplay",
+  "version": "1.0.0",
+  "description": "Status display plugin for node-home",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juliankern/node-home-statusdisplay.git"
+  },
+  "keywords": [
+    "nodejs",
+    "node-home",
+    "smarthome",
+    "display",
+    "status"
+  ],
+  "author": "Julian Kern <mail@juliankern.com> (https://juliankern.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/juliankern/node-home-statusdisplay/issues"
+  },
+  "homepage": "https://github.com/juliankern/node-home-statusdisplay#readme",
+  "dependencies": {
+    "rpi-gpio": "^0.8.1"
+  }
+}
