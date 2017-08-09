@@ -56,6 +56,11 @@ function load(socket) {
         });
         gpio.setup(config.button, gpio.DIR_IN, gpio.EDGE_BOTH);
     }
+    
+    socket.on('render', (globals, cb) => {
+        console.log('trying to render display with globals', globals);
+        cb();
+    })
 }
 
 function unload(socket) {
