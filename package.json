@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/juliankern/smartnode-statusdisplay#readme",
   "dependencies": {
+    "lcd": "^1.1.4",
     "rpi-gpio": "^0.8.1"
   }
 }

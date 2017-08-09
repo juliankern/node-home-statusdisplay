@@ -1,4 +1,6 @@
 let config;
+let Lcd;
+let lcd;
 let gpio;
 let displayTimeout;
 
@@ -6,7 +8,7 @@ module.exports = (cfg) => {
     config = cfg;
     console.log('loaded node-home-statusdisplay', config);
     
-    if (config.display || config.button) {
+    if ((config.display && config.display.backlight) || config.button) {
         try {
             gpio = require('rpi-gpio');
         } catch(e) {
@@ -16,6 +18,10 @@ module.exports = (cfg) => {
                 destroy: () => {}
             }
         }
+    }
+
+    if (config.display) {
+        Lcd = require('./lib/lcd.js');
     }
     
     return {
@@ -28,8 +34,12 @@ function load(socket) {
     console.log('pluginloaded')
     socket.emit('pluginloaded');
     
+    if (config.display && config.display.backlight) {
+        gpio.setup(config.display.backlight, gpio.DIR_OUT);
+    }
+
     if (config.display) {
-        gpio.setup(config.display, gpio.DIR_OUT);
+        lcd = new Lcd(Object.assign({cols: 8, rows: 2}, config.display));
     }
     
     if (config.button) {
@@ -37,10 +47,10 @@ function load(socket) {
             if (channel === config.button && value) {
                 if (displayTimeout) clearTimeout(displayTimeout);
                 
-                await gpio.write(config.display, true);
+                await gpio.write(config.display.backlight, true);
                 
                 displayTimeout = setTimeout(() => {
-                    gpio.write(config.display, false);
+                    gpio.write(config.display.backlight, false);
                 }, (config.display.timeout || 10) * 1000);
             }
         });
@@ -49,8 +59,6 @@ function load(socket) {
 }
 
 function unload(socket) {
-    socket.emit('pluginunloaded');
-    
     if (gpio) {
         gpio.destroy();
     }
