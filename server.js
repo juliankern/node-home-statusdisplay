@@ -1,29 +1,51 @@
-module.exports = async (SmartNodePlugin) => {
-    let config = SmartNodePlugin.config;
-    let storage = SmartNodePlugin.storage;
-    let socket = SmartNodePlugin.socket;
+module.exports = async (SmartNodeServerPlugin) => {
+    let socket = SmartNodeServerPlugin.socket;
+    let lines = ['',''];
     
     return {
         load,
-        unload
+        unload,
+        unpair
     }
+
+    function unpair() {}
     
     function load() {
-        _initRender(SmartNodePlugin.getGlobals());
+        SmartNodeServerPlugin.addDisplayData('displayline1', {
+            description: "Line 1",
+            type: "string",
+            value: lines[0]
+        });
+
+        SmartNodeServerPlugin.addDisplayData('displayline2', {
+            description: "Line 2",
+            type: "string",
+            value: lines[1]
+        });
+
+        _initRender(SmartNodeServerPlugin.getGlobals());
         
-        SmartNodePlugin.on('globalsChanged', () => {
-            _initRender(SmartNodePlugin.getGlobals());
+        SmartNodeServerPlugin.on('globalsChanged', (changed) => {
+            _initRender(SmartNodeServerPlugin.getGlobals());
         });
     }
     
     function unload() {
-        SmartNodePlugin.removeAllListeners('globalsChanged');
+        SmartNodeServerPlugin.removeAllListeners('globalsChanged');
     }
     
     function _initRender(data) {
-        console.log('_initRender', data);
-        socket.emit('render', data, () => {
-            global.muted('Display rendered');
+        socket.emit('render', data, (renderedLines) => {
+            lines = renderedLines;
+            global.muted('Display rendered', lines);
+
+            SmartNodeServerPlugin.updateDisplayData('displayline1', {
+                value: lines[0]
+            });
+
+            SmartNodeServerPlugin.updateDisplayData('displayline2', {
+                value: lines[1]
+            });
         });
     }
 }

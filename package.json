@@ -1,30 +1,85 @@
 {
-  "name": "smartnode-statusdisplay",
-  "version": "1.0.0",
-  "description": "Status display plugin for SmartNode",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/juliankern/smartnode-statusdisplay.git"
-  },
-  "keywords": [
-    "nodejs",
-    "node-home",
-    "smarthome",
-    "display",
-    "status"
-  ],
-  "author": "Julian Kern <mail@juliankern.com> (https://juliankern.com)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/juliankern/smartnode-statusdisplay/issues"
-  },
-  "homepage": "https://github.com/juliankern/smartnode-statusdisplay#readme",
-  "dependencies": {
-    "lcd": "^1.1.4",
-    "rpi-gpio": "^0.8.1"
-  }
+    "name": "smartnode-statusdisplay",
+    "version": "1.0.0",
+    "description": "Status display plugin for SmartNode",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/juliankern/smartnode-statusdisplay.git"
+    },
+    "keywords": [
+        "nodejs",
+        "node-home",
+        "smarthome",
+        "display",
+        "status"
+    ],
+    "author": "Julian Kern <mail@juliankern.com> (https://juliankern.com)",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/juliankern/smartnode-statusdisplay/issues"
+    },
+    "homepage": "https://github.com/juliankern/smartnode-statusdisplay#readme",
+    "dependencies": {
+        "lcd": "^1.1.4",
+        "rpi-gpio": "^0.8.1"
+    },
+    "displayName": "Statusdisplay",
+    "configurationFormat": {
+        "button": {
+            "type": "number",
+            "description": "GPIO port number of the button port",
+            "default": 0,
+            "required": true
+        },
+        "lines": {
+            "type": "array",
+            "arrayType": "string",
+            "length": 2,
+            "description": "Lines to display - you can work with placeholders in the handlebars format.",
+            "default": [
+                "{{room.temperature.current}}{{room.temperature.unit}} > {{room.temperature.target}}{{room.temperature.unit}}",
+                ""
+            ],
+            "required": true
+        },
+        "backlight": {
+            "type": "number",
+            "description": "GPIO port number of the backlight port"
+        },
+        "timeout": {
+            "type": "number",
+            "description": "Seconds, until the display should turn off again, after the button was pressed",
+            "default": 5
+        },
+        "lcd": {
+            "type": "object",
+            "description": "Data for the display module",
+            "properties": {
+                "rs": {
+                    "description": "RS",
+                    "type": "number",
+                    "default": 12,
+                    "required": true
+                },
+                "e": {
+                    "description": "E",
+                    "type": "number",
+                    "default": 21,
+                    "required": true
+                },
+                "data": {
+                    "description": "Data-Ports, make sure they're entered in the right order",
+                    "type": "array",
+                    "arrayType": "number",
+                    "length": 4,
+                    "default": [5, 6, 17, 18],
+                    "required": true
+                }
+            }
+        }
+    }
 }
