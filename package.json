@@ -23,9 +23,12 @@
         "url": "https://github.com/juliankern/smartnode-statusdisplay/issues"
     },
     "homepage": "https://github.com/juliankern/smartnode-statusdisplay#readme",
-    "dependencies": {
+    "optionalDependencies": {
         "lcd": "^1.1.4",
         "rpi-gpio": "^0.8.1"
+    },
+    "peerDependencies": {
+        "node-smartnode": "1.x"
     },
     "displayName": "Statusdisplay",
     "configurationFormat": {
